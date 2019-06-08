@@ -6,6 +6,7 @@ class SignUpForm extends Component {
     super();
 
     this.state = {
+      // usuarioList: [],
       email: "",
       password: "",
       name: "",
@@ -29,6 +30,22 @@ class SignUpForm extends Component {
     });
   }
 
+  handleAddUsuario = () => {
+    fetch("/api/usuarios", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ usuario: this.state })
+    }).then(res => res.json());
+    /* .then(res => {
+        this.getUsuarioList();
+        this.setState({ name: "" });
+      });*/
+  };
+
+  /*componentDidMount() {
+    this.getUsuarioList();
+  }*/
+
   handleSubmit(e) {
     e.preventDefault();
 
@@ -38,8 +55,6 @@ class SignUpForm extends Component {
 
   render() {
     return (
-      <>
-      
       <div className="FormCenter">
         <form onSubmit={this.handleSubmit} className="FormFields">
           <div className="FormField">
@@ -144,14 +159,18 @@ class SignUpForm extends Component {
           </div>
 
           <div className="FormField">
-            <button className="FormField__Button mr-20">Registrarse</button>{" "}
+            <button
+              className="FormField__Button mr-20"
+              onClick={this.handleAddUsuario}
+            >
+              Registrarse
+            </button>{" "}
             <Link to="/sign-in" className="FormField__Link">
               Ya soy un usuario
             </Link>
           </div>
         </form>
       </div>
-      </>
     );
   }
 }
